@@ -1,2 +1,22 @@
 services:
- 
+  decypharr:
+    image: huntarr/huntarr:latest
+    container_name: decypharr
+    restart: unless-stopped
+    expose:
+      - 9705
+    environment:
+      - TZ=${TZ}
+      - PUID=${PUID}
+      - PGID=${PGID}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.huntarr.rule=Host(`${DECYPHARR_HOSTNAME?}`)"
+      - "traefik.http.routers.huntarr.entrypoints=websecure"
+      - "traefik.http.routers.huntarr.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.huntarr.middlewares=authelia@docker"
+    volumes:
+      - ${DOCKER_DATA_DIR?}/decypharr:/config
+    profiles:
+      - decypharr
+      - all
