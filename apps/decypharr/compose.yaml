@@ -4,7 +4,7 @@ services:
     container_name: decypharr
     restart: unless-stopped
     expose:
-      - 9705
+      - 8282
     environment:
       - TZ=${TZ}
       - PUID=${PUID}
